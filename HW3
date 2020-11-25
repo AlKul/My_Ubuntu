@@ -1,1 +1,64 @@
-#first comment
+1
+a) 
+alexx@alexx-VirtualBox:~$ sudo useradd -m -s /bin/bash user2
+useradd: пользователь «user2» уже существует
+
+alexx@alexx-VirtualBox:~$ sudo adduser  user2
+Добавляется пользователь «user2» ...
+Добавляется новая группа «user2» (1002) ...
+Добавляется новый пользователь «user2» (1002) в группу «user2» ...
+Домашний каталог «/home/user2» уже существует. Не копируется из «/etc/skel».
+Новый пароль : 
+Повторите ввод нового пароля : 
+passwd: пароль успешно обновлён
+Изменение информации о пользователе user2
+Введите новое значение или нажмите ENTER для выбора значения по умолчанию
+	Полное имя []: 
+	Номер комнаты []: 
+	Рабочий телефон []: 
+	Домашний телефон []: 
+	Другое []: 
+Данная информация корректна? [Y/n] y
+alexx@alexx-VirtualBox:~$ cat /etc/passwd
+
+b)
+alexx@alexx-VirtualBox:~$ sudo userdel  user2
+alexx@alexx-VirtualBox:~$ cat /etc/
+
+
+c) 
+--
+
+2
+a)
+alexx@alexx-VirtualBox:~$ sudo groupadd team1
+[sudo] пароль для alexx: 
+groupadd: группа «team1» уже существует
+alexx@alexx-VirtualBox:~$ sudo addgroup team2
+addgroup: Группа «team2» уже существует.
+alexx@alexx-VirtualBox:~$ sudo addgroup team3
+Добавляется группа «team3» (GID 1005) ...
+Готово.
+
+
+b)
+Этот момент пока не понял, еще попробую разобраться, в любом случае, надеюсь на вашу подсказку
+
+c)
+alexx@alexx-VirtualBox:~$ sudo usermod -aG team3 user1
+cat /etc/group
+
+
+d) Вроде так, но разве было на лекции? Так ли сделал, или лучше как-то иначе?
+alexx@alexx-VirtualBox:~$ sudo gpasswd -d user1 team3
+[sudo] пароль для alexx: 
+Удаление пользователя user1 из группы team3
+alexx@alexx-VirtualBox:~$ 
+
+3
+alexx@alexx-VirtualBox:~$ sudo usermod -aG sudo user1
+
+alexx@alexx-VirtualBox:~$ su user1
+Пароль: 
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
