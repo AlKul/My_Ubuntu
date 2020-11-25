@@ -42,7 +42,15 @@ alexx@alexx-VirtualBox:~$ sudo addgroup team3
 
 
 b)
-Этот момент пока не понял, еще попробую разобраться, в любом случае, надеюсь на вашу подсказку
+Попробовал сделать так:
+
+sudoedit /etc/passwd
+Там прописал у необходимого пользователя (например, user1) после второго числового индикатора группу, т е вместо строки
+user1:x:1001:1001:user1:/home/user1:/bin/bash
+
+прописал это: 
+user1:x:1001:1001:Alexx:/home/user1:/bin/bash
+
 
 c)
 alexx@alexx-VirtualBox:~$ sudo usermod -aG team3 user1
@@ -54,6 +62,12 @@ alexx@alexx-VirtualBox:~$ sudo gpasswd -d user1 team3
 [sudo] пароль для alexx: 
 Удаление пользователя user1 из группы team3
 alexx@alexx-VirtualBox:~$ 
+
+
+Другой способ: 
+
+sudoedit /etc/group
+//затем просто удаляем из соответствующей группы лишнего пользователя (так ведь пойдет?)
 
 3
 alexx@alexx-VirtualBox:~$ sudo usermod -aG sudo user1
