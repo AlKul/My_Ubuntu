@@ -44,3 +44,16 @@ alexx@alexx-VirtualBox:~$ ps -ef
     
     
 sudo systemctl reload sshd - не меняет ничего. Stop также не выкинул меня. После Start не поменялся PID. Королева в недоумении. Мы в недоумении. SOS
+
+
+4. Сигналы процессам
+alexx@alexx-VirtualBox:~/lesson5$ mc
+alexx@alexx-VirtualBox:~/lesson5$ ps -ef grep mc
+ 
+  alexx      67032   65421  0 02:32 pts/0    00:00:00 mc
+  alexx      67046   67034  0 02:33 pts/1    00:00:00 grep --color=auto mc
+
+alexx@alexx-VirtualBox:~/lesson5$ kill 9 67032Завершено
+
+  alexx@alexx-VirtualBox:~/lesson5$ ps -ef | grep mc
+  alexx      67088   65421  0 02:40 pts/0    00:00:00 grep --color=auto mc
