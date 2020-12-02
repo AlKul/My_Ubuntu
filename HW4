@@ -1,0 +1,46 @@
+1.Создать файл, используя команду echo. Используя команду cat, прочитать содержимое каталога etc, ошибки перенаправить в отдельный файл.
+
+alexx@alexx-VirtualBox:~/lesson4$ echo "Some text" > text.txt
+alexx@alexx-VirtualBox:~/lesson4$ cat text.txt
+Some text
+Вот ,что было в файле. Это кажется это странным, учитывая то, что пароль все-таки запрашивается. # перед строкой с паролем не для комментирования? Простите, если было, но прозеавл
+  alexx@alexx# To disable tunneled clear text passwords, change to no here!
+  #PasswordAuthentication no
+  #PermitEmptyPasswords no
+-VirtualBox:~/lesson4$ cat /etc/* 2> errors.log
+
+### Вроде делал так же, как у вас, но почему-то вывод намного больше получился. Хотя по идее та же ОС, тоже ВМ
+
+alexx@alexx-VirtualBox:~/lesson4$ cat errors.log 
+
+
+2. Конвейер (pipeline). Использовать команду cut на вывод длинного списка каталога, чтобы отобразить только права доступа к файлам. 
+   man Затем отправить в конвейере этот вывод на sort и uniq, чтобы отфильтровать все повторяющиеся строки.
+   
+   alexx@alexx-VirtualBox:~$ ls -l | cut -c1-11 | sort | uniq
+
+#Вот только как избавиться от "итого"?..
+
+
+3. Управление процессами.
+
+alexx@alexx-VirtualBox:~$ sudoedit /etc/ssh/sshd_config
+
+Вот ,что было в файле. Это кажется это странным, учитывая то, что пароль все-таки запрашивается. # перед строкой с паролем не для комментирования? Простите, если было, но прозеавл
+  # To disable tunneled clear text passwords, change to no here!
+  #PasswordAuthentication no
+  #PermitEmptyPasswords no
+  
+ps -ef (хотел еще спросить, какой из них что делает?)
+  root       65324   23204  0 20:12 ?        00:00:00 sshd: alexx [priv]
+  alexx      65420   65324  0 20:12 ?        00:00:00 sshd: alexx@pts/0
+  
+alexx@alexx-VirtualBox:~$ sudo systemctl restart sshd
+alexx@alexx-VirtualBox:~$ ps -ef
+
+  Здесь тоже ряд вопросов:
+    1) Меня НЕ выкинуло, хотя я пользуюсь ВМ Убунтой с удаленного компа, разве не должно было
+    2) У меня НЕ изменились PID. У обоих процессов. Как же так?
+    
+    
+sudo systemctl reload sshd - не меняет ничего. Stop также не выкинул меня. После Start не поменялся PID. Королева в недоумении. Мы в недоумении. SOS
