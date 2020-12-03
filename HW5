@@ -1,1 +1,115 @@
-Here's gonna be the 5 soon
+1. Создать файл file1 и наполнить его произвольным содержимым. Скопировать его в file2. Создать символическую ссылку file3 на file1. 
+   Создать жёсткую ссылку file4 на file1. Посмотреть, какие inode у файлов. Удалить file1. Что стало с остальными созданными файлами? 
+   Попробовать вывести их на экран.
+
+$ touch file1
+alexx@alexx-VirtualBox:~/lesson5$ echo "Some strings" > file1
+alexx@alexx-VirtualBox:~/lesson5$ echo "Some more strings" >> file1
+alexx@alexx-VirtualBox:~/lesson5$ cp file1 file2
+alexx@alexx-VirtualBox:~/lesson5$ ln -s file1 file3
+
+alexx@alexx-VirtualBox:~/lesson5$ ln file1 file4
+alexx@alexx-VirtualBox:~/lesson5$ ls -li
+итого 12
+264466 -rw-rw-r-- 2 alexx alexx 31 дек  3 01:24 file1
+264467 -rw-rw-r-- 1 alexx alexx 31 дек  3 01:31 file2
+264468 lrwxrwxrwx 1 alexx alexx  5 дек  3 01:33 file3 -> file1
+264466 -rw-rw-r-- 2 alexx alexx 31 дек  3 01:24 file4
+alexx@alexx-VirtualBox:~/lesson5$ rm file1
+alexx@alexx-VirtualBox:~/lesson5$ ls -li
+итого 8
+264467 -rw-rw-r-- 1 alexx alexx 31 дек  3 01:31 file2
+264468 lrwxrwxrwx 1 alexx alexx  5 дек  3 01:33 file3 -> file1
+264466 -rw-rw-r-- 1 alexx alexx 31 дек  3 01:24 file4
+alexx@alexx-VirtualBox:~/lesson5$ cat file2
+Some strings
+Some more strings
+    
+    Файл 2 был скопирован командой cp - видимо, создан новый inode и файл? Поэтому содержимое выводится
+    
+alexx@alexx-VirtualBox:~/lesson5$ cat file3
+cat: file3: Нет такого файла или каталога
+    
+    Файл3 -  символическая ссылка на удаленный файл, содержимое не выводится
+
+alexx@alexx-VirtualBox:~/lesson5$ cat file4
+Some strings
+Some more strings
+
+  Файл4 - жесткая ссылка, ссылается на тот же inode, что и покойный ныне файл1. 
+  
+  
+
+2. Дать созданным файлам другие, произвольные имена. Создать новую символическую ссылку. Переместить ссылки в другую директорию.
+
+alexx@alexx-VirtualBox:~/lesson5$ mv file2 file2_2
+alexx@alexx-VirtualBox:~/lesson5$ mv file3 file3_2
+alexx@alexx-VirtualBox:~/lesson5$ mv file4 file4_2
+
+alexx@alexx-VirtualBox:~/lesson5$ ln -s file2_2 file2_2l
+alexx@alexx-VirtualBox:~/lesson5$ ls -li
+итого 8
+264467 -rw-rw-r-- 1 alexx alexx 31 дек  3 01:31 file2_2
+264469 lrwxrwxrwx 1 alexx alexx  7 дек  3 03:06 file2_2l -> file2_2
+264468 lrwxrwxrwx 1 alexx alexx  5 дек  3 01:33 file3_2 -> file1
+264466 -rw-rw-r-- 1 alexx alexx 31 дек  3 01:24 file4_2
+
+alexx@alexx-VirtualBox:~/lesson5$ mkdir new_catalog
+alexx@alexx-VirtualBox:~/lesson5$ mv f* new_catalog/ 
+
+alexx@alexx-VirtualBox:~/lesson5$ ls -li new_catalog/
+итого 8
+264467 -rw-rw-r-- 1 alexx alexx 31 дек  3 01:31 file2_2
+264469 lrwxrwxrwx 1 alexx alexx  7 дек  3 03:06 file2_2l -> file2_2
+264468 lrwxrwxrwx 1 alexx alexx  5 дек  3 01:33 file3_2 -> file1
+264466 -rw-rw-r-- 1 alexx alexx 31 дек  3 01:24 file4_2
+
+
+  Inode остались прежними. 
+  
+  
+  3. Создать два произвольных файла. Первому присвоить права на чтение и запись для владельца и группы, только на чтение — для всех. 
+     Второму присвоить права на чтение и запись только для владельца. Сделать это в численном и символьном виде.
+
+
+alexx@alexx-VirtualBox:~/lesson5$ touch file1 file2
+
+alexx@alexx-VirtualBox:~/lesson5$ chmod ug=rw,o=r file1
+    # Вроде по умолчанию так и было
+alexx@alexx-VirtualBox:~/lesson5$ chmod 600 file2
+alexx@alexx-VirtualBox:~/lesson5$ ls -l
+итого 4
+-rw-rw-r-- 1 alexx alexx    0 дек  3 03:17 file1
+-rw------- 1 alexx alexx    0 дек  3 03:17 file2
+drwxrwxr-x 2 alexx alexx 4096 дек  3 03:09 new_catalog
+
+
+
+4. Создать пользователя, обладающего возможностью выполнять действия от имени суперпользователя.
+
+alexx@alexx-VirtualBox:~/lesson5$ sudo adduser newsuperuser
+[sudo] пароль для alexx: 
+Добавляется пользователь «newsuperuser» ...
+Добавляется новая группа «newsuperuser» (1006) ...
+Добавляется новый пользователь «newsuperuser» (1003) в группу «newsuperuser» ...
+Создаётся домашний каталог «/home/newsuperuser» ...
+Копирование файлов из «/etc/skel» ...
+Новый пароль : 
+Повторите ввод нового пароля : 
+passwd: пароль успешно обновлён
+Изменение информации о пользователе newsuperuser
+Введите новое значение или нажмите ENTER для выбора значения по умолчанию
+	Полное имя []: SU
+	Номер комнаты []: 
+	Рабочий телефон []: 
+	Домашний телефон []: 
+	Другое []: 
+Данная информация корректна? [Y/n] y
+alexx@alexx-VirtualBox:~/lesson5$ usermod -aG sudo newsuperuser 
+usermod: Permission denied.
+usermod: не удалось заблокировать /etc/passwd; попробуйте ещё раз позже.
+alexx@alexx-VirtualBox:~/lesson5$ sudo usermod -aG sudo newsuperuser 
+alexx@alexx-VirtualBox:~/lesson5$ 
+
+
+На звездатые задачи сил нет, надеюсь, еще вернусь
