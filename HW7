@@ -1,0 +1,23 @@
+1. Подключить репозиторий с nginx любым удобным способом, установить nginx и потом удалить nginx, используя утилиту dpkg.
+
+sudo apt install nginx
+sudo dpkg -r nginx
+  # но почему тогда:
+  
+  alexx@alexx-VirtualBox:~/lesson7$ nginx -v
+  nginx version: nginx/1.18.0 (Ubuntu)
+
+
+
+2. Установить пакет на свой выбор, используя snap.
+
+Посмотрел список, выбрал несколько вариантов, получил предупреждение. Не бояться, продолжать с --classic?
+
+alexx@alexx-VirtualBox:~/lesson7$ sudo snap install pycharm-community 
+ошибка: This revision of snap "pycharm-community" was published using
+              classic confinement and thus may perform arbitrary system changes
+              outside of the security sandbox that snaps are usually confined
+              to, which may put your system at risk.
+
+              If you understand and want to proceed repeat the command
+              including --classic.
