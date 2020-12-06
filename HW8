@@ -1,0 +1,58 @@
+1. Переустановить операционную систему, подключить репозиторий Docker.
+
+  На переустанавливать Вы вроде разрешили забить
+
+alexx@alexx-VirtualBox:~/lesson8$ sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
+alexx@alexx-VirtualBox:~/lesson8$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+[sudo] пароль для alexx: 
+OK
+
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+sudo apt update
+sudo apt install
+
+sudo apt install docker-ce -y
+
+Проверяю, вспомнив, что для текущего пользователя разрешена команда докер без пароля:
+
+docker run hello-world:
+
+Hello from Docker!
+...
+
+
+
+2. Запустить контейнер с Ubuntu.
+
+docker search ubuntu:
+
+NAME                                                      DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
+ubuntu                                                    Ubuntu is a Debian-based Linux operating sys…   11552  
+
+alexx@alexx-VirtualBox:~/lesson8$ docker pull ubuntu
+Using default tag: latest
+latest: Pulling from library/ubuntu
+Digest: sha256:c95a8e48bf88e9849f3e0f723d9f49fa12c5a00cfc6e60d2bc99d87555295e4c
+Status: Image is up to date for ubuntu:latest
+docker.io/library/ubuntu:latest
+
+
+alexx@alexx-VirtualBox:~/lesson8$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx_custom        latest              f447270d0165        3 hours ago         158MB
+ubuntu              latest              f643c72bc252        10 days ago         72.9MB
+nginx               latest              bc9a0695f571        11 days ago         133MB
+hello-world         latest              bf756fb1ae65        11 months ago       13.3kB
+alexx@alexx-VirtualBox:~/lesson8$ docker run -it ubuntu
+    # -it - ключи, которые загуглил( Сначала пытался запустить без них, но ничего не произошло, что тогда делает эта же строка, но без -it?
+    Правильно ли понимаю, что мы таким образом получили просто образ ОС убунту? Вернее ее консоль без графической оболочки? То есть это структура ОС убунту, 
+    которая живет от нашей оперативки, процессора и все такое? Простите, если тупые вопросы, под конец уже усваивается не 100%
+
+root@b710b6bbd2af:/# cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+...
